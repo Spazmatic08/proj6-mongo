@@ -5,6 +5,22 @@
 
 /* Nothing yet */
 
+.memotext {
+    width: 100%;
+    height: 70%;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container {
+    width: 900px;
+    .center-block();
+}
+
 .lyrics {
     margin-left: 3em;
     font-style: italic;

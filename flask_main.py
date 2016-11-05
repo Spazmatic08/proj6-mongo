@@ -72,11 +72,23 @@ def index():
   return flask.render_template('index.html')
 
 
-# We don't have an interface for creating memos yet
-# @app.route("/create")
-# def create():
-#     app.logger.debug("Create")
-#     return flask.render_template('create.html')
+@app.route("/create")
+def create():
+    app.logger.debug("Create")
+    return flask.render_template('create.html')
+
+
+@app.route("/_creatememo", methods = ["POST"])
+def creatememo():
+    app.logger.debug("Memo received - inserting into database")
+    memo = { "type": "dated_memo",
+             "date": request.form['date'],
+             "text": request.form['memotext'] }
+
+    collection.insert(memo)
+
+    return flask.redirect(url_for("index"))
+    
 
 
 @app.errorhandler(404)
