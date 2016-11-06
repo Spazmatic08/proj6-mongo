@@ -1,35 +1,23 @@
 # proj6-mongo
-Simple list of dated memos kept in MongoDB database
+A simple list of dated memos kept in MongoDB database.
 
-## What is here
+## Functionality
 
-A simple Flask app that displays all the dated memos it finds in a MongoDB database.
-There is also a 'scaffolding' program, db_trial.py, for inserting a couple records into the database 
-and printing them out.  Get db_trial.py working before you try making your flask app work. 
-
-## What is not here
-
-In addition to the missing functionality in the application, you will
-need a MongoDB database, and you will need credentials (user name and
-password) both for an administrative user and a regular user.  The
-administrative user may be you, but the regular user is your
-application. Make a subdirectory called "secrets" and place two files
-in it: 
-
-- secrets/admin_secrets.py holds configuration information for your MongoDB
-  database, including the administrative password.  
-= secrets/client_secrets.py holds configuration information for your
-  application. 
-
-
-
-## Functionality you'll add
-
-The user should be able to add dated memos, either from the same index page or from a separate page. 
-Memos should be displayed in date order. 
-The user should be able to delete memos. 
+The user is able to add dated memos from a separate page. 
+Memos displayed in date order. 
+The user is able to delete memos. 
 
 ## Setting up
+
+Setting up should follow a series of commands after you've forked
+and cloned the project:
+
+* bash ./configure
+* make run [or make service]
+
+Note that this requires a mongod (a la MongoDB) running in order to
+function, with the /secrets directory containing the necessary information
+to employ user, tester, and administrator accounts.
 
 Our use of the database is pretty simple, but you should anticipate
 that installing MongoDB could take some time.  Since you may not be
@@ -51,4 +39,11 @@ In Python, the pymongo API works with both versions of MongoDB, so
 it's only the initial setup where you have to be  
 careful to use the right version-specific commands. 
 
+## FIXME
 
+* The automated nosetest suite remains functionally useless - it still tries
+to employ the client's account rather than the tester's. The structure of
+the application is poorly suited for such tests, but some editing from anyone
+savvy with MongoDB and Nose might have better luck. Alternatively, a series of
+unittests for the various Flask pages might be more appropriate considering the
+number of routes that employ POST.
