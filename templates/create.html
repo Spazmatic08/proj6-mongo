@@ -18,6 +18,16 @@
 
   <!-- Our own style sheet -->
   <link rel="stylesheet" href="/static/css/memos.css" />
+
+  <!-- jstz permits us to retrieve the client's time zone setting -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.js">
+  </script>
+
+  <!-- moment.js is the JavaScript equivalent of arrow.py -->
+  <script 
+    src="{{ url_for('static', filename="js/moment.min.js") }}"></script>
+
 </head>
 
 <body>
@@ -28,11 +38,20 @@
 <div class="center-block">
 <form id="memo" method="POST" action="/_creatememo">
   <label>Set for </label>
-    <input type=date name="date" id="date" value="2017-01-01" />
+    <input type="hidden" name="tzdate" id="tzdate"></input>
+    <input type="datetime-local" name="date" id="date" value="2017-01-01T00:00" />
   <textarea class="memotext" name="memotext"></textarea>
-  <button type="submit">Create Memo</button>
+  <button type="submit" onclick="addTZ()">Create Memo</button>
 </div>
 </form> 
+
+<script type="text/javascript">
+function addTZ(){
+  var d = $("#date").val();
+  var date = moment(d).toISOString();
+  document.getElementById("tzdate").value = date;
+}
+</script>
 
 </div><!-- End of container -->
 </body>

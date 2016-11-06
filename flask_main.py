@@ -25,6 +25,8 @@ import logging
 import arrow    # Replacement for datetime, based on moment.js
 # import datetime # But we may still need time
 from dateutil import tz  # For interpreting local times
+# Object ID for deletions
+from bson.objectid import ObjectId
 
 # Mongo database
 from pymongo import MongoClient
@@ -82,14 +84,21 @@ def create():
 def creatememo():
     app.logger.debug("Memo received - inserting into database")
     memo = { "type": "dated_memo",
-             "date": request.form['date'],
+             "date": request.form['tzdate'],
              "text": request.form['memotext'] }
 
     collection.insert(memo)
 
     return flask.redirect(url_for("index"))
     
+@app.route("/_deletememo", methods = ["POST"])
+def delete():
+    memo_id = request.form['memo_id']
+    app.logger.debug("Memo {} flagged for deletion".format(memo_id))
 
+    collection.remove( { "_id": ObjectId(memo_id) } )
+
+    return flask.redirect(url_for("index"))
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -140,7 +149,6 @@ def get_memos():
     records = [ ]
     for record in collection.find( { "type": "dated_memo" } ).sort( "date", -1 ):
         record['date'] = arrow.get(record['date']).isoformat()
-        del record['_id']
         records.append(record)
     return records 
 

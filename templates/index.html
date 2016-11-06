@@ -45,8 +45,16 @@
   <div class="col-md-2">
     {{ memo.date | humanize }}
   </div>
-  <div class="col-md-10">
+  <div class="col-md-8">
     {{ memo.text }}
+  </div>
+  <div class="col-md-2">
+    <form method="POST" action="/_deletememo">
+      <input type="hidden" name="memo_id" value={{ memo._id }}></input>
+      <button type=submit>
+        Delete
+      </button>
+    </form>
   </div>
   </div> <!-- row -->
   </div> <!-- memo -->
@@ -58,6 +66,12 @@
 <form id="makememo" action="/create">
    <input type="submit" value="Create New Memo" />
 </form>
+
+<script type="text/javascript">
+  function remove(memo_id){
+    console.log("ID: " + memo_id);
+  }
+</script>
 
 </div> <!-- container -->
 </body>
